@@ -86,3 +86,10 @@ in the main css file paste:
 @tailwind components;
 @tailwind utilities;
 
+### key for a map 
+- npm install uuid  or npm i uuidv4
+import { v4 as uuidv4 } from 'uuid';
+key={uuidv4()}
+
+### React bootstrap for modal
+- npm install react-bootstrap bootstrap
