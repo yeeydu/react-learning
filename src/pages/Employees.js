@@ -52,8 +52,8 @@ function Employees() {
   // let role = "dev";
 
   return (
-    <div className="App bg-gray-300 min-h-screen " >
-      <div className='flex flex-wrap justify-center my-4'> {/* flex-wrap = wraps content for small view*/}
+    <div className="App" >
+      <div className='flex flex-wrap justify-center'> {/* flex-wrap = wraps content for small view*/}
         {employees.map((employee) => {
           {/* passing component as a prop */}
           const editEmployee = (  

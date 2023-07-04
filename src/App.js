@@ -9,12 +9,13 @@ function App() {
 
 
   return (
-    <div className="App bg-gray-300 min-h-screen " >
+    <div className="App  bg-gray-300 min-h-screen " >
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path='/Employees' element={<Employees />} />
-        </Routes>
+        <Navbar >
+          <Routes>
+            <Route path='/Employees' element={<Employees />} />
+          </Routes>
+        </Navbar>
       </BrowserRouter>
     </div>
   );
