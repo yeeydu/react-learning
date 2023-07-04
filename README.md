@@ -93,3 +93,7 @@ key={uuidv4()}
 
 ### React bootstrap for modal
 - npm install react-bootstrap bootstrap
+
+### Tailwind Navbar for React
+- npm install @heroicons/react
+- npm install @headlessui/react

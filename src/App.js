@@ -4,6 +4,7 @@ import Employee from './components/Employee';
 import { v4 as uuidv4 } from 'uuid';
 import AddEmployee from './components/AddEmployee';
 import EditEmployee from './components/EditEmployee';
+import Navbar from './components/Navbar';
 
 function App() {
 
@@ -52,13 +53,9 @@ function App() {
   // let role = "dev";
 
   return (
-    <div className="App" >
-      <input type='text'
-        onChange={(e) => {
-          setRole(e.target.value)
-          console.log(e.target.value);
-        }} />
-      <div className='flex flex-wrap justify-center'> {/* flex-wrap = wraps content for small view*/}
+    <div className="App bg-gray-300 min-h-screen " >
+      <Navbar/>
+      <div className='flex flex-wrap justify-center my-4'> {/* flex-wrap = wraps content for small view*/}
         {employees.map((employee) => {
           {/* passing component as a prop */}
           const editEmployee = (  
