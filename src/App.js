@@ -2,6 +2,7 @@ import './index.css';
 import React, { useState } from "react";
 import Employee from './components/Employee';
 import { v4 as uuidv4 } from 'uuid';
+import AddEmployee from './components/AddEmployee';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
     { id: 9, name: "Rihana", role: "Developer", image: 'https://images.pexels.com/photos/871495/pexels-photo-871495.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
   ]);
 
+
   function updateEmployee(id, newName, newRole) {
 
     const updateEmployees = employees.map((employee)=>{
@@ -31,6 +33,19 @@ function App() {
     setEmployees(updateEmployees)
     console.log('updateEmployee inside of app.js');
   }
+
+
+  function newEmployee(name, role, image){
+
+    const newEmployee = {
+      id: uuidv4(),
+      name: name,
+      role: role,
+      image: image
+    }
+      setEmployees([...employees, newEmployee])
+  }
+
 
   const showEmployess = false;
   // let role = "dev";
@@ -56,6 +71,7 @@ function App() {
           );
         })}
       </div>
+      <AddEmployee newEmployee={newEmployee}/>
     </div>
   );
 }
