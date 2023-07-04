@@ -97,3 +97,6 @@ key={uuidv4()}
 ### Tailwind Navbar for React
 - npm install @heroicons/react
 - npm install @headlessui/react
+
+### Router
+- npm install react-router-dom

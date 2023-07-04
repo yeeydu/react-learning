@@ -2,6 +2,7 @@ import './index.css';
 import React, { useState } from "react";
 import Navbar from './components/Navbar';
 import Employees from './pages/Employees';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
 
@@ -9,8 +10,12 @@ function App() {
 
   return (
     <div className="App bg-gray-300 min-h-screen " >
-      <Navbar />
-      <Employees />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Employees />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
