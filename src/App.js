@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Employee from './components/Employee';
 import { v4 as uuidv4 } from 'uuid';
 import AddEmployee from './components/AddEmployee';
+import EditEmployee from './components/EditEmployee';
 
 function App() {
 
@@ -22,10 +23,10 @@ function App() {
 
   function updateEmployee(id, newName, newRole) {
 
-    const updateEmployees = employees.map((employee)=>{
-      if(id == employee.id){
-        {/*...employee = spread operator it helps to avoid passing all elements of that object*/}
-        return{...employee, name: newName, role: newRole};
+    const updateEmployees = employees.map((employee) => {
+      if (id == employee.id) {
+        {/*...employee = spread operator it helps to avoid passing all elements of that object*/ }
+        return { ...employee, name: newName, role: newRole };
       }
       return employee;
     });
@@ -35,7 +36,7 @@ function App() {
   }
 
 
-  function newEmployee(name, role, image){
+  function newEmployee(name, role, image) {
 
     const newEmployee = {
       id: uuidv4(),
@@ -43,7 +44,7 @@ function App() {
       role: role,
       image: image
     }
-      setEmployees([...employees, newEmployee])
+    setEmployees([...employees, newEmployee])
   }
 
 
@@ -59,6 +60,14 @@ function App() {
         }} />
       <div className='flex flex-wrap justify-center'> {/* flex-wrap = wraps content for small view*/}
         {employees.map((employee) => {
+          {/* passing component as a prop */}
+          const editEmployee = (  
+            <EditEmployee 
+              id={employee.id}
+              name={employee.name}
+              role={employee.role}
+              updateEmployee={updateEmployee}
+            />); 
           return (
             < Employee
               key={employee.id}
@@ -66,12 +75,12 @@ function App() {
               name={employee.name}
               role={employee.role}
               img={employee.image}
-              updateEmployee={updateEmployee}
+              editEmployee={editEmployee}
             />
           );
         })}
       </div>
-      <AddEmployee newEmployee={newEmployee}/>
+      <AddEmployee newEmployee={newEmployee} />
     </div>
   );
 }

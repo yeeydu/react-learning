@@ -19,7 +19,15 @@ function Employee(props) {
                             {props.role}
                         </p>
                     </div>
-                    <EditEmployee id={props.id} name={props.name} role={props.role} updateEmployee={props.updateEmployee} />
+                    {props.editEmployee}
+                    {/*
+                        <EditEmployee
+                        id={props.id}
+                        name={props.name}
+                        role={props.role}
+                        updateEmployee={props.updateEmployee}
+                    /> 
+                    */}
 
                 </div>
             </div>

@@ -31,8 +31,6 @@ function EditEmployee(props) {
                         e.preventDefault();
                         props.updateEmployee(props.id, name, role);
                         handleClose();
-                        console.log('hello from edit employee');
-                        console.log(props.id, name, role);
                     }} >
                         <div className="mb-6">
                             <label
