@@ -19,9 +19,11 @@ export default function Dictionary() {
       <input type='text' onChange={(e) => {
         setWord(e.target.value); // this functions are assyncronous so they not garantee to have he value inmidiately
       }} />
-      <button onClick={() => {
-        navigate('/definition/'+word)
-      }}>Search</button>
+      <button
+        className='block m-2 px-4 py-1 text-sm font-semibold rounded-full border border-purple-200 text-white bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 '
+        onClick={() => {
+          navigate('/definition/' + word)
+        }}>Search</button>
     </div>
   )
 }
