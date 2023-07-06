@@ -100,3 +100,7 @@ key={uuidv4()}
 
 ### Router
 - npm install react-router-dom
+
+### freeApi
+
+-rapidapi

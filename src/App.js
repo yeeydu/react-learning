@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import Navbar from './components/Navbar';
 import Employees from './pages/Employees';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Dictionary from './components/Dictionary';
+import Dictionary from './pages/Dictionary';
+import Definition from './pages/Definition';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path='/Employees' element={<Employees />} />
             <Route path='/dictionary' element={<Dictionary />} />
+            <Route path='/definition' element={<Definition />} />
           </Routes>
         </Navbar>
       </BrowserRouter>
