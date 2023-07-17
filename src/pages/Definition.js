@@ -7,25 +7,40 @@ export default function Definition() {
 
     const [word, setWord] = useState();
     const [notFound, setNotFound] = useState(false)
+    const [error, setError] = useState(false)
     let { search } = useParams(); //
     const navigate = useNavigate();
 
+
     useEffect(() => {
-        fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + search)
+        //const url = 'http://httpstat.us/500'
+        const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + search;
+
+        fetch(url)
             .then((response) => {
                 if (response.status === 404) {
+                    //console.log(response.status)
                     navigate('/404');
-                } else {
+                } else if (!response.ok) {
+                    setError(true);
+                    throw new Error('something went wrogn')
+                }
+                else {
                     return response.json()
                 }
             })
             .then((data) => {
                 setWord(data[0].meanings);
+            }).catch(() => {
+                console.log(error.message);
             });
     }, [])
 
     if (notFound === true) {
         navigate('/404')
+    }
+    if (error === true) {
+        navigate('/404' )
     }
     return (
         <div>
