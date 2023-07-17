@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom';
 import NotFound from '../pages/NotFound';
+import DefinitionSearch from '../components/DefinitionSearch';
 
 export default function Definition() {
 
@@ -52,6 +53,8 @@ export default function Definition() {
                         {meaning.definitions[0].definition}
                     </p>;
                 })}
+                <p>Search again:</p>
+                <DefinitionSearch/>
             </>
                 : <p>Loadding...</p>}
         </div>
