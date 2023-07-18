@@ -104,3 +104,23 @@ key={uuidv4()}
 ### freeApi
 
 -rapidapi
+
+### Backend with Python Django
+
+## install python to your machine
+project in another folder
+
+python project installation commands
+
+- python3 -m venv .venv
+- . .venv/bin/activate
+
+Install Django 
+- python -m pip install django
+- django-admin
+- django-admin startptoject "name" .
+
+Run server
+- python3 manage.py runserver
+
+

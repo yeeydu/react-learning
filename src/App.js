@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dictionary from './pages/Dictionary';
 import Definition from './pages/Definition';
 import NotFound from './pages/NotFound';
+import Customers from './pages/Customers';
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
       <BrowserRouter>
         <Navbar >
           <Routes>
-            <Route path='/Employees' element={<Employees />} />
+            <Route path='/employees' element={<Employees />} />
+            <Route path='/customers' element={<Customers />} />
             <Route path='/dictionary' element={<Dictionary />} />
             <Route path='/dictionary/:search' element={<Definition />} /> 
             <Route path='/404' element={<NotFound/>} />
