@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, json } from 'react-router-dom'
 import NotFound from './NotFound';
 import { baseUrl } from '../shared';
 
@@ -12,7 +12,7 @@ export default function Customer() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const url = baseUrl +'api/customers/' + id;
+        const url = baseUrl + 'api/customers/' + id;
         fetch(url)
             .then((response) => {
                 if (response.status === 404) {
@@ -28,16 +28,36 @@ export default function Customer() {
             })
     }, [])
 
+    function deleteCustomer() {
+        const url = baseUrl + 'api/customers/' + id;
+        fetch(url, { method: 'DELETE', headers:{ 
+            'Content-Type': 'application/json', // define content type in fetch
+        } })
+        .then((response) => {
+                console.log('deleting')
+                if (!response.ok) {
+                    throw new Error('Something went wrong');
+                }
+                navigate('/customers')
+            }).catch((e) => {
+                console.log(e)
+            })
+
+    }
 
     return (
         <>
             {notFound ? <NotFound message={"Customer not found !"} /> : null}
             {customer ?
                 <div key={customer.id}>
-                    <p>{customer.name}</p>
+                    <h2>{customer.name}</h2>
                     <p>{customer.industry}</p>
                 </div>
                 : null}
+            <div>
+
+                <button onClick={deleteCustomer}>Delete</button>
+            </div>
             <Link to={"/customers"}>Back</Link>
         </>
     )
