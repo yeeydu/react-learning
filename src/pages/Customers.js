@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared';
+
 
 export default function Customers() {
 
@@ -7,7 +9,8 @@ export default function Customers() {
 
     useEffect(() => {
         console.log("fetching..")
-        fetch('http://localhost:8000/api/customers/')
+        const url = baseUrl +'api/customers/';
+        fetch(url)
             .then((response) => response.json())
             .then((data) => {
                 setCustomers(data.customers);

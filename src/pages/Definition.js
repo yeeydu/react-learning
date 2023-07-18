@@ -24,6 +24,7 @@ export default function Definition() {
                     navigate('/404');
                 } else if (!response.ok) {
                     setError(true);
+                    setNotFound(true);
                     throw new Error('something went wrogn')
                 }
                 else {
@@ -38,10 +39,10 @@ export default function Definition() {
     }, [])
 
     if (notFound === true) {
-        navigate('/404')
+        <NotFound message={'the word was not found'}/>
     }
     if (error === true) {
-        navigate('/404' )
+        <NotFound message={'Sorry there was an Error'}/>
     }
     return (
         <div>
