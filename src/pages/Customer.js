@@ -5,7 +5,7 @@ import { baseUrl } from '../shared';
 
 
 export default function Customer() {
-    const [customer, setCustomer] = useState();
+    const [customer, setCustomer] = useState([]);
     const [notFound, setNotFound] = useState(false);
 
     const { id } = useParams() // use params returns an object {id} returns a paramter of object
@@ -30,11 +30,13 @@ export default function Customer() {
 
     function deleteCustomer() {
         const url = baseUrl + 'api/customers/' + id;
-        fetch(url, { method: 'DELETE', headers:{ 
-            'Content-Type': 'application/json', // define content type in fetch
-        } })
-        .then((response) => {
-                console.log('deleting')
+        fetch(url, {
+            method: 'DELETE', 
+            headers: {
+                'Content-Type': 'application/json', // define content type in fetch
+            }
+        })
+            .then((response) => {
                 if (!response.ok) {
                     throw new Error('Something went wrong');
                 }
