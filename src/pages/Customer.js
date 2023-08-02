@@ -24,14 +24,14 @@ export default function Customer() {
                     // render 404 component
                     setNotFound(true);
                 }
-                if(!response.ok) throw new Error('Something went wrong')
+                if (!response.ok) throw new Error('Something went wrong')
                 return response.json()
             })
             .then((data) => {
                 setTempCustomer(data.customer)
                 setCustomer(data.customer) //.customer to get inside /property
                 setError(undefined)
-            }).catch((e)=>{
+            }).catch((e) => {
                 setError(e.message)
             })
     }, [])
@@ -56,7 +56,8 @@ export default function Customer() {
     }
 
 
-    function updateCustomer() {
+    function updateCustomer(e) {
+        e.preventDefault();
         const url = baseUrl + 'api/customers/' + id;
         fetch(url, {
             method: 'POST',
@@ -66,7 +67,7 @@ export default function Customer() {
             body: JSON.stringify(tempCustomer),
         })
             .then((response) => {
-                if(!response.ok) throw new Error('Something went wrong')
+                if (!response.ok) throw new Error('Something went wrong')
                 return response.json
             })
             .then((data) => {
@@ -82,41 +83,65 @@ export default function Customer() {
     return (
         <>
             {notFound ? <NotFound message={"Customer not found !"} /> : null}
-            {customer ? 
+            {customer ?
                 (<div>
-                    <input
-                        className='mb-2 block px-2'
-                        type='text'
-                        value={tempCustomer.name}
-                        onChange={(e) => {
-                            setTempCustomer({ ...tempCustomer, name: e.target.value })
-                            setChanged(true)
-                        }} />
-                    <input
-                        className='mb-2 block px-2'
-                        type='text'
-                        value={tempCustomer.industry}
-                        onChange={(e) => {
-                            setTempCustomer({ ...tempCustomer, industry: e.target.value })
-                            setChanged(true)
-                        }} />
+                    <form id='customer' onSubmit={updateCustomer} className='w-full max-w-sm'>
+                        <div className="mb-3 ">
+                            <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                            <input
+                                id='name'
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                type='text'
+                                value={tempCustomer.name}
+                                onChange={(e) => {
+                                    setTempCustomer({ ...tempCustomer, name: e.target.value })
+                                    setChanged(true)
+                                }} />
+                        </div>
+                        <div className="mb-3">
+                            <label for="industry" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Industry</label>
+                            <input
+                                id='industry'
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                type='text'
+                                value={tempCustomer.industry}
+                                onChange={(e) => {
+                                    setTempCustomer({ ...tempCustomer, industry: e.target.value })
+                                    setChanged(true)
+                                }} />
+                        </div>
+                    </form>
                     {changed ? (
-                        <>
-                            <button className='m-2 ' onClick={updateCustomer}>Save</button>
-                            <button className='m-2 ' onClick={(e) => {
-                                setTempCustomer({ ...customer });
-                                setChanged(false)
-                            }}>Cancel</button>
-                        </>
+                        <div className=''>
+                            <button form='customer'
+
+                                className='m-1  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                            >Save</button>
+                            <button
+                                className='m-1  text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800'
+
+                                onClick={(e) => {
+                                    setTempCustomer({ ...customer });
+                                    setChanged(false)
+                                }}>Cancel</button>
+                        </div>
                     ) : null}
-             
-                     <div>
-                        <button onClick={deleteCustomer}>Delete</button>
-                     </div>
+
+                    <div>
+                        <button
+                            className='m-1  text-white  bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800'
+                            onClick={deleteCustomer}
+                        >Delete</button>
+                    </div>
                 </div>
-                ) : null }
-                {error ? <p>{error} </p>: null}
-            <Link to={"/customers"}>Back</Link>
+                ) : null}
+            {error ? <p>{error} </p> : null}
+            <button className='mx-1 my-2 '>
+                <Link
+                    to={"/customers"}
+                    className=' m-1 px-4 py-1 text-sm font-semibold rounded-3xl border border-purple-200 text-white bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 '
+                >Back</Link>
+            </button>
         </>
     )
 }
