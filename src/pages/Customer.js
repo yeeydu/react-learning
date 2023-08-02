@@ -9,6 +9,7 @@ export default function Customer() {
     const [notFound, setNotFound] = useState(false);
     const [tempCustomer, setTempCustomer] = useState([]);
     const [changed, setChanged] = useState(false);
+    const [error, setError] = useState();
 
     const { id } = useParams() // use params returns an object {id} returns a paramter of object
     const navigate = useNavigate();
@@ -23,11 +24,15 @@ export default function Customer() {
                     // render 404 component
                     setNotFound(true);
                 }
+                if(!response.ok) throw new Error('Something went wrong')
                 return response.json()
             })
             .then((data) => {
                 setTempCustomer(data.customer)
                 setCustomer(data.customer) //.customer to get inside /property
+                setError(undefined)
+            }).catch((e)=>{
+                setError(e.message)
             })
     }, [])
 
@@ -45,7 +50,7 @@ export default function Customer() {
                 }
                 navigate('/customers')
             }).catch((e) => {
-                console.log(e)
+                setError(e.message)
             })
 
     }
@@ -61,23 +66,24 @@ export default function Customer() {
             body: JSON.stringify(tempCustomer),
         })
             .then((response) => {
+                if(!response.ok) throw new Error('Something went wrong')
                 return response.json
             })
             .then((data) => {
                 //setCustomer(data.customer)
-                
                 setChanged(false);
+                setError(undefined);
             })
             .catch((e) => {
-                console.log(e)
+                setError(e.message)
             })
     }
 
     return (
         <>
             {notFound ? <NotFound message={"Customer not found !"} /> : null}
-            {customer ?
-                <div>
+            {customer ? 
+                (<div>
                     <input
                         className='mb-2 block px-2'
                         type='text'
@@ -96,19 +102,20 @@ export default function Customer() {
                         }} />
                     {changed ? (
                         <>
-                            <button onClick={updateCustomer}>Save</button>
-                            <button onClick={(e) => {
+                            <button className='m-2 ' onClick={updateCustomer}>Save</button>
+                            <button className='m-2 ' onClick={(e) => {
                                 setTempCustomer({ ...customer });
                                 setChanged(false)
                             }}>Cancel</button>
                         </>
                     ) : null}
+             
+                     <div>
+                        <button onClick={deleteCustomer}>Delete</button>
+                     </div>
                 </div>
-                : null}
-            <div>
-
-                <button onClick={deleteCustomer}>Delete</button>
-            </div>
+                ) : null }
+                {error ? <p>{error} </p>: null}
             <Link to={"/customers"}>Back</Link>
         </>
     )
