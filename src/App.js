@@ -1,5 +1,5 @@
 import './index.css';
-import React, { useState } from "react";
+import React from "react";
 import Navbar from './components/Navbar';
 import Employees from './pages/Employees';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -8,6 +8,7 @@ import Definition from './pages/Definition';
 import NotFound from './pages/NotFound';
 import Customers from './pages/Customers';
 import Customer from './pages/Customer';
+import Login from './pages/Login';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
             <Route path='/dictionary' element={<Dictionary />} />
             <Route path='/dictionary/:search' element={<Definition />} /> 
             <Route path='/404' element={<NotFound/>} />
+            <Route path='/login' element={<Login/>} />
             <Route path='*' element={<NotFound/>} />
           </Routes>
         </Navbar>

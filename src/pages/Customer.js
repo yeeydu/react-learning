@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link, useNavigate, json } from 'react-router-dom'
+import { useParams, Link, useNavigate ,useLocation} from 'react-router-dom'
 import NotFound from './NotFound';
 import { baseUrl } from '../shared';
 
@@ -12,17 +12,29 @@ export default function Customer() {
     const [error, setError] = useState();
 
     const { id } = useParams() // use params returns an object {id} returns a paramter of object
+    const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
         const url = baseUrl + 'api/customers/' + id;
-        fetch(url)
+        fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('access'),
+            },
+        })
             .then((response) => {
                 if (response.status === 404) {
                     // redirect to 404 page
                     //navigate('/404');
                     // render 404 component
                     setNotFound(true);
+                } else if (response.status === 401) {
+                    navigate("/login", {
+                        state: {
+                            previousUrl: location?.pathname,
+                        },
+                    });
                 }
                 if (!response.ok) throw new Error('Something went wrong')
                 return response.json()
@@ -42,9 +54,17 @@ export default function Customer() {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json', // define content type in fetch
+                Authorization: 'Bearer' + localStorage.getItem('access'),
             }
         })
             .then((response) => {
+                if (response.status === 401) {
+                    navigate("/login", {
+                        state: {
+                            previousUrl: location?.pathname,
+                        },
+                    });
+                }
                 if (!response.ok) {
                     throw new Error('Something went wrong');
                 }
@@ -63,10 +83,18 @@ export default function Customer() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('access'),
             },
             body: JSON.stringify(tempCustomer),
         })
             .then((response) => {
+                if (response.status === 401) {
+                    navigate("/login", {
+                        state: {
+                            previousUrl: location?.pathname,
+                        },
+                    });
+                }
                 if (!response.ok) throw new Error('Something went wrong')
                 return response.json
             })
@@ -84,10 +112,10 @@ export default function Customer() {
         <>
             {notFound ? <NotFound message={"Customer not found !"} /> : null}
             {customer ?
-                (<div>
+                (<>
                     <form id='customer' onSubmit={updateCustomer} className='w-full max-w-sm'>
                         <div className="mb-3 ">
-                            <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                             <input
                                 id='name'
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -99,7 +127,7 @@ export default function Customer() {
                                 }} />
                         </div>
                         <div className="mb-3">
-                            <label for="industry" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Industry</label>
+                            <label htmlFor="industry" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Industry</label>
                             <input
                                 id='industry'
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -133,8 +161,7 @@ export default function Customer() {
                             onClick={deleteCustomer}
                         >Delete</button>
                     </div>
-                </div>
-                ) : null}
+                </>) : null}
             {error ? <p>{error} </p> : null}
             <button className='mx-1 my-2 '>
                 <Link
