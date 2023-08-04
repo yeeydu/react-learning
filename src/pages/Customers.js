@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { baseUrl } from '../shared';
 import AddCustomer from '../components/AddCustomer';
-
+import { LoginContext } from '../App'
 
 export default function Customers() {
+    // set context
+    const [loggedIn, setLoggedIn] = useContext(LoginContext)
 
     const [customers, setCustomers] = useState([]);
     const [show, setShow] = useState(false);
@@ -26,15 +28,16 @@ export default function Customers() {
             },
             body: JSON.stringify(customers),
         }).then((response) => {
-                if (response.status === 401) {
-                    navigate("/login", {
-                        state: {
-                            previousUrl: location?.pathname,
-                        },
-                    });
-                }
-                return response.json()
-            })
+            setLoggedIn(false)
+            if (response.status === 401) {
+                navigate("/login", {
+                    state: {
+                        previousUrl: location?.pathname,
+                    },
+                });
+            }
+            return response.json()
+        })
             .then((data) => {
                 setCustomers(data.customers);
             }).catch(Error)
