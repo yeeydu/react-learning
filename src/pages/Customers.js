@@ -52,7 +52,7 @@ export default function Customers() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data)
+           // body: JSON.stringify(data)
         })
             .then((response) => {
                 if (response.status === 401) {
