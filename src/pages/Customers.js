@@ -18,15 +18,15 @@ export default function Customers() {
         setShow(!show)
     }
 
+    const token = baseUrl + 'api/token/';
     useEffect(() => {
-        //console.log("fetching..")
         const url = baseUrl + 'api/customers/';
         fetch(url, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer' + localStorage.getItem('access'),
+                Authorization: 'Bearer ' + localStorage.getItem('access'),
             },
-            body: JSON.stringify(customers),
+            //body: JSON.stringify(customers),
         }).then((response) => {
             setLoggedIn(false)
             if (response.status === 401) {
@@ -38,8 +38,8 @@ export default function Customers() {
             }
             return response.json()
         })
-            .then((data) => {
-                setCustomers(data.customers);
+        .then((data) => {
+            setCustomers(data.customers);
             }).catch(Error)
     }, [])
 
@@ -51,8 +51,9 @@ export default function Customers() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('access'),
             },
-           // body: JSON.stringify(data)
+            body: JSON.stringify(data)
         })
             .then((response) => {
                 if (response.status === 401) {
@@ -75,7 +76,6 @@ export default function Customers() {
                 console.log(e)
             })
     }
-
     return (
         <>
             <h1>Our customers</h1>
