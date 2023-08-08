@@ -12,8 +12,12 @@ export default function Definition() {
     //const [error, setError] = useState(false)
     let { search } = useParams(); //
     const navigate = useNavigate();
+    //                                            [{}]default empty array and object                                                         {}default parameter
+    const { request, data: [{ meanings: word }] = [{}], errorStatus } = useFetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + search, {});
 
-    const [word, errorStatus] = useFetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + search);
+    useEffect(()=>{
+        request();
+    })
 
     if (errorStatus === 404) {
         return (<NotFound message={'the word was not found'} />)
@@ -23,10 +27,10 @@ export default function Definition() {
     }
 
     return (
-        <div>
-            {word?.[0]?.meanings ? <>
+        <div>{/*word?.[0]?.meanings ?*/}
+            {word ? <>
                 <h2>Definition for: {search.toUpperCase()}</h2>
-                {word[0].meanings.map((meaning) => {
+                {word.map((meaning) => {
                     return <p key={uuidv4}>
                         {meaning.partOfSpeech + ': '}
                         {meaning.definitions[0].definition}
