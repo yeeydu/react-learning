@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 
-// object destructuring      -  {}assigned empty object if no exist
+//                                  object destructuring      -  {}assigned empty object if no exist
 export default function UseFetch(url, { method, headers, body } = {}) {
 
     const [data, setData] = useState();
@@ -11,7 +11,6 @@ export default function UseFetch(url, { method, headers, body } = {}) {
     const navigate = useNavigate();
 
     function request() {
-
         fetch(url, {
             method: method,
             headers: headers,
@@ -51,15 +50,15 @@ export default function UseFetch(url, { method, headers, body } = {}) {
                     },
                 });
             }
-            if(!response.ok){
+            if (!response.ok) {
                 throw response.status;
             }
             return response.json()
-        }).then((d)=>{
+        }).then((d) => {
             //add object to array
             const submitted = Object.values(d)[0];
             //duplicate object
-            const newState = {...data};
+            const newState = { ...data };
             //push that object 
             Object.values(newState)[0].push(submitted);
             //

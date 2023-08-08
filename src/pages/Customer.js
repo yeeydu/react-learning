@@ -18,6 +18,7 @@ export default function Customer() {
     const location = useLocation();
     const navigate = useNavigate();
 
+    //get customer by id
     useEffect(() => {
         const url = baseUrl + 'api/customers/' + id;
         fetch(url, {
@@ -25,33 +26,32 @@ export default function Customer() {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('access'),
             },
+        }).then((response) => {
+            if (response.status === 404) {
+                // redirect to 404 page
+                //navigate('/404');
+                // render 404 component
+                setNotFound(true);
+            } else if (response.status === 401) {
+                setLoggedIn(false)
+                navigate("/login", {
+                    state: {
+                        previousUrl: location?.pathname,
+                    },
+                });
+            }
+            if (!response.ok) throw new Error('Something went wrong')
+            return response.json()
+        }).then((data) => {
+            setTempCustomer(data.customer)
+            setCustomer(data.customer) //.customer to get inside /property
+            setError(undefined)
+        }).catch((e) => {
+            setError(e.message)
         })
-            .then((response) => {
-                if (response.status === 404) {
-                    // redirect to 404 page
-                    //navigate('/404');
-                    // render 404 component
-                    setNotFound(true);
-                } else if (response.status === 401) {
-                    setLoggedIn(false)
-                    navigate("/login", {
-                        state: {
-                            previousUrl: location?.pathname,
-                        },
-                    });
-                }
-                if (!response.ok) throw new Error('Something went wrong')
-                return response.json()
-            })
-            .then((data) => {
-                setTempCustomer(data.customer)
-                setCustomer(data.customer) //.customer to get inside /property
-                setError(undefined)
-            }).catch((e) => {
-                setError(e.message)
-            })
     }, [])
 
+    //delete customer
     function deleteCustomer() {
         const url = baseUrl + 'api/customers/' + id;
         fetch(url, {
@@ -60,27 +60,25 @@ export default function Customer() {
                 'Content-Type': 'application/json', // define content type in fetch
                 Authorization: 'Bearer ' + localStorage.getItem('access'),
             }
+        }).then((response) => {
+            if (response.status === 401) {
+                setLoggedIn(false)
+                navigate("/login", {
+                    state: {
+                        previousUrl: location?.pathname,
+                    },
+                });
+            }
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+            navigate('/customers')
+        }).catch((e) => {
+            setError(e.message)
         })
-            .then((response) => {
-                if (response.status === 401) {
-                    setLoggedIn(false)
-                    navigate("/login", {
-                        state: {
-                            previousUrl: location?.pathname,
-                        },
-                    });
-                }
-                if (!response.ok) {
-                    throw new Error('Something went wrong');
-                }
-                navigate('/customers')
-            }).catch((e) => {
-                setError(e.message)
-            })
-
     }
 
-
+    //update customer
     function updateCustomer(e) {
         e.preventDefault();
         const url = baseUrl + 'api/customers/' + id;
@@ -91,27 +89,24 @@ export default function Customer() {
                 Authorization: 'Bearer ' + localStorage.getItem('access'),
             },
             body: JSON.stringify(tempCustomer),
+        }).then((response) => {
+            if (response.status === 401) {
+                setLoggedIn(false)
+                navigate("/login", {
+                    state: {
+                        previousUrl: location?.pathname,
+                    },
+                });
+            }
+            if (!response.ok) throw new Error('Something went wrong')
+            return response.json
+        }).then((data) => {
+            //setCustomer(data.customer)
+            setChanged(false);
+            setError(undefined);
+        }).catch((e) => {
+            setError(e.message)
         })
-            .then((response) => {
-                if (response.status === 401) {
-                    setLoggedIn(false)
-                    navigate("/login", {
-                        state: {
-                            previousUrl: location?.pathname,
-                        },
-                    });
-                }
-                if (!response.ok) throw new Error('Something went wrong')
-                return response.json
-            })
-            .then((data) => {
-                //setCustomer(data.customer)
-                setChanged(false);
-                setError(undefined);
-            })
-            .catch((e) => {
-                setError(e.message)
-            })
     }
 
     return (

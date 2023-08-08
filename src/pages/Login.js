@@ -32,7 +32,6 @@ function Login() {
         }).then((data) => {
             localStorage.setItem('access', data.access) // add local storage
             localStorage.setItem('refresh', data.refresh)
-            console.log(localStorage.access)
             setLoggedIn(true)
             navigate(location?.state?.previousUrl ? location.state.previousUrl : '/customers')
         })

@@ -58,7 +58,8 @@ export default function Customers() {
                 }).catch(Error)
         }, [])
     */
-
+    
+    // add new customer func
     function newCustomer(name, industry) {
         appendData({ name: name, industry: industry });
         if(!errorStatus){
