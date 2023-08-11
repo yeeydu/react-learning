@@ -11,6 +11,7 @@ import Customer from './pages/Customer';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { baseUrl } from './shared';
+import Contact from './pages/Contact';
 
 // react context for login
 export const LoginContext = createContext();
@@ -67,6 +68,7 @@ function App() {
               <Route path='/customers/:id' element={<Customer />} />
               <Route path='/dictionary' element={<Dictionary />} />
               <Route path='/dictionary/:search' element={<Definition />} />
+              <Route path='/contact' element={<Contact />} />
               <Route path='/404' element={<NotFound />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
