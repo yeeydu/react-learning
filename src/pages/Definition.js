@@ -36,7 +36,7 @@ export default function Definition() {
                         {meaning.definitions[0].definition}
                     </p>;
                 })}
-                <p>Search again:</p>
+                <p>Search other words:</p>
                 <DefinitionSearch />
             </>
                 : <p>Loadding...</p>}

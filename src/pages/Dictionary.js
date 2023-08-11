@@ -4,11 +4,13 @@ import DefinitionSearch from '../components/DefinitionSearch';
 
 export default function Dictionary() {
 
-  
-  return (
-    <div className='flex justify-center'>
 
-      <DefinitionSearch/>
-    </div>
+  return (
+    <>
+      <p className='flex justify-center mb-5'>Search for a word definition</p>
+      <div className='flex justify-center'>
+        <DefinitionSearch />
+      </div>
+    </>
   )
 }
