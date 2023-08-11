@@ -58,32 +58,50 @@ export default function Customers() {
                 }).catch(Error)
         }, [])
     */
-    
+
     // add new customer func
     function newCustomer(name, industry) {
         appendData({ name: name, industry: industry });
-        if(!errorStatus){
+        if (!errorStatus) {
             toggleShow();
         }
     }
 
     return (
-        <>
+        <div className='container'>
             <h1>Our customers</h1>
+            <AddCustomer newCustomer={newCustomer} show={show} toggleShow={toggleShow} />
+            <div class="row">
+                <div class="col m-3 ">
+                     <strong>Name</strong>  
+                </div>
+                <div class="col m-3 ">
+                <strong>Industry</strong> 
+                </div>
+            </div>
             {customers ?
                 customers.map((customer) => {
                     return (
-                        <div key={customer.id}>
-                            <Link to={"/customers/" + customer.id}>
-                                <button
-                                    className=' mx-2 px-3 py-1 my-1 text-sm font-semibold rounded border border-purple-200 text-white bg-gray-600 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 '
-                                >{customer.name}</button>
-                            </Link>
-                        </div>
-                    )
-                }) : null}
 
-            <AddCustomer newCustomer={newCustomer} show={show} toggleShow={toggleShow} />
-        </>
+                        <div class="row" key={customer.id}>
+                            <div class="col">
+                                <Link to={"/customers/" + customer.id}>
+                                    <button
+                                        className=' mx-2 px-2 py-1 text-sm font-semibold rounded border border-purple-200 text-white bg-gray-600 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 '
+                                    >Edit
+                                    </button>
+                                </Link>
+                                {customer.name}
+                            </div>
+                            <div class="col">
+                                <p> {customer.industry}</p>
+                            </div>
+                            <div class="w-100"></div>
+                        </div>
+
+                    )
+                }).reverse() : null}
+
+        </div>
     )
 }
